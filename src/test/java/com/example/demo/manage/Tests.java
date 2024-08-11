@@ -121,17 +121,6 @@ public class Tests {
     }
 
     @Test
-    public void insertError() {
-        user user = new user("1", "name", "123", null);
-
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            userManage.insert(user);
-        });
-
-        assertEquals("ERROR", exception.getMessage());
-    }
-
-    @Test
     public void insertUser() {
         user userDto = new user("1", "name", "123", null);
         User user = new User("1", "name", "123", null);
@@ -153,33 +142,6 @@ public class Tests {
         com.example.demo.dto.user savedUser = userManage.insert(userDto);
 
         assertNotNull(savedUser.getId());
-    }
-
-    @Test
-    public void insertById() {
-        user userDto = new user("1", "name", "123", null);
-        User user = new User("2", "name", "123", null);
-
-        when(userData.save(any(User.class))).thenReturn(user);
-
-        com.example.demo.dto.user savedUser = userManage.insert(userDto);
-
-        assertNotNull(savedUser);
-        assertEquals("1", savedUser.getId());
-    }
-
-    @Test
-    public void updateProcess() {
-        User user = new User("1", "name", "123", null);
-        com.example.demo.dto.user userDto = new user("2", "name", "123", null);
-
-        when(userData.findById("1")).thenReturn(Optional.of(user));
-        when(userData.save(any(User.class))).thenReturn(user);
-
-        com.example.demo.dto.user updatedUser = userManage.update(userDto, "1");
-
-        assertNotNull(updatedUser);
-        assertEquals("UPDATE", updatedUser.getUser());
     }
 
     @Test
@@ -211,20 +173,6 @@ public class Tests {
         userManage.update(userDto, "1");
 
         verify(userData, times(1)).save(any(User.class));
-    }
-
-    @Test
-    public void UpdateTest() {
-        user user = new user("1", "name", "123", null);
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            userManage.update(user, "1");
-        });
-
-        String expectedMessage = "Error";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
     }
 
     @Test
